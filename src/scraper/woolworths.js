@@ -31,39 +31,44 @@ function getProductDetails(element) {
 
 async function getHalfOffItems() {
   try {
-    const browser = await puppeteer.launch();
-    let page = await browser.newPage();
-    currentPage = currentPage + 1;
-    await page.goto(getUrl(), { waitUntil: 'networkidle2' });
+    do {
+      productCount = (await scrapeItems()).length;
+    } while (productCount > 0);
 
-    await page.addScriptTag({
-      content: `${getProductDetails}`
-    });
-
-    let pageProducts = await page.evaluate(() => {
-      const products = [];
-      let text = document.querySelectorAll(
-        'div[class="shelfProductTile-content"]'
-      );
-      text.forEach(product => {
-        products.push(getProductDetails(product));
-      });
-      return products;
-    });
-    productList = [...productList, ...pageProducts];
-    console.log(productList.length);
-    if (pageProducts.length > 0) {
-      getHalfOffItems();
-    } else {
-      browser.close();
-      return productList;
-    }
+    return productList;
   } catch (error) {
-    console.error(error);
+    console.error('Error occured while woolworth scraping', error);
   }
 }
 
+async function scrapeItems() {
+  const browser = await puppeteer.launch();
+  let page = await browser.newPage();
+  await page.goto(getUrl(), { waitUntil: 'networkidle2' });
+
+  await page.addScriptTag({
+    content: `${getProductDetails}`
+  });
+
+  let pageProducts = await page.evaluate(() => {
+    const products = [];
+    let text = document.querySelectorAll(
+      'div[class="shelfProductTile-content"]'
+    );
+    text.forEach(product => {
+      products.push(getProductDetails(product));
+    });
+    return products;
+  });
+
+  productList = [...productList, ...pageProducts];
+  browser.close();
+  console.log(productList.length);
+  return pageProducts;
+}
+
 function getUrl() {
+  currentPage = currentPage + 1;
   return `https://www.woolworths.com.au/shop/productgroup/131119-wk20-half-price-specials?pageNumber=${currentPage}&filterOpen=0&openFilter=Brand`;
 }
 

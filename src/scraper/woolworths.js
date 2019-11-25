@@ -1,15 +1,16 @@
 const puppeteer = require('puppeteer');
+
 let currentPage = 0;
 let productList = [];
 process.setMaxListeners(0);
 
 function getProductDetails(element) {
-  let dollar = element.querySelector('span[class="price-dollars"]');
-  let cents = element.querySelector('span[class="price-cents"]');
+  const dollar = element.querySelector('span[class="price-dollars"]');
+  const cents = element.querySelector('span[class="price-cents"]');
   let status = 'not in stock';
-  let price = {
+  const price = {
     dollar: 0,
-    cents: 0
+    cents: 0,
   };
 
   if (dollar && cents) {
@@ -22,40 +23,40 @@ function getProductDetails(element) {
     title: element.querySelector('h3').innerText,
     price: {
       dollar,
-      cents
+      cents,
     },
-    status: status,
-    image: element.querySelector('img').getAttribute('src')
+    status,
+    image: element.querySelector('img').getAttribute('src'),
   };
 }
 
 async function getHalfOffItems() {
+  let productCount = 0;
   try {
     do {
       productCount = (await scrapeItems()).length;
     } while (productCount > 0);
-
-    return productList;
   } catch (error) {
     console.error('Error occured while woolworth scraping', error);
   }
+  return productList;
 }
 
 async function scrapeItems() {
   const browser = await puppeteer.launch();
-  let page = await browser.newPage();
+  const page = await browser.newPage();
   await page.goto(getUrl(), { waitUntil: 'networkidle2' });
 
   await page.addScriptTag({
-    content: `${getProductDetails}`
+    content: `${getProductDetails}`,
   });
 
-  let pageProducts = await page.evaluate(() => {
+  const pageProducts = await page.evaluate(() => {
     const products = [];
-    let text = document.querySelectorAll(
-      'div[class="shelfProductTile-content"]'
+    const text = document.querySelectorAll(
+      'div[class="shelfProductTile-content"]',
     );
-    text.forEach(product => {
+    text.forEach((product) => {
       products.push(getProductDetails(product));
     });
     return products;
@@ -63,15 +64,14 @@ async function scrapeItems() {
 
   productList = [...productList, ...pageProducts];
   browser.close();
-  console.log(productList.length);
   return pageProducts;
 }
 
 function getUrl() {
-  currentPage = currentPage + 1;
+  currentPage += 1;
   return `https://www.woolworths.com.au/shop/productgroup/131119-wk20-half-price-specials?pageNumber=${currentPage}&filterOpen=0&openFilter=Brand`;
 }
 
 module.exports = {
-  getHalfOffItems
+  getHalfOffItems,
 };

@@ -17,5 +17,12 @@
   "rules": {
     "no-use-before-define": 0,
     "no-await-in-loop": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }

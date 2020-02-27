@@ -12,7 +12,6 @@ app.use(express.json());
 
 app.use('/auth', router);
 
-
 function notFound(req, res, next) {
   res.status(404);
   const error = new Error(`Not Found - ${req.originalUrl}`);

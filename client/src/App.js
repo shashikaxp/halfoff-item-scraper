@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
-import Drawer from "./components/drawer";
-import './App.css';
+import Drawer from "./components/Drawer"; import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Drawer />
+      <Drawer>
+      </Drawer>
     </div>
   );
 }

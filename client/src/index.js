@@ -6,10 +6,13 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './constants/theme';
 import * as serviceWorker from './serviceWorker';
 
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>
-        <App />
+        <Router>
+            <App />
+        </Router>
     </ThemeProvider>,
     document.getElementById('root')
 );

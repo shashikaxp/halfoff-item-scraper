@@ -1,165 +1,98 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from "react";
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
+import { Route } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import StorefrontIcon from '@material-ui/icons/MoveToInbox';
 import ShoppingCartIcon from '@material-ui/icons/Mail';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
-const drawerWidth = 240;
+import MyAppBar from "./AppBar";
+import ListMenuItem from "./ListMenuItem"
 
-const styles = makeStyles(theme => (
-    {
-        root: {
-            display: 'flex'
-        },
-        appBar: {
-            backgroundColor: theme.palette.primary.main,
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen
-            })
-        },
-        appBarShift: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen
-            })
-        },
-        menuButton: {
-            marginRight: theme.spacing(2)
-        },
-        hide: {
-            display: 'none'
-        },
-        drawer: {
-            width: drawerWidth,
-            flexShrink: 0
-        },
-        drawerPaper: {
-            width: drawerWidth
-        },
-        drawerHeader: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: theme.spacing(0, 1),
-            ...theme.mixins.toolbar,
-            justifyContent: 'flex-end'
-        },
-        content: {
-            flexGrow: 1,
-            padding: theme.spacing(3),
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen
-            }),
-            marginLeft: -drawerWidth
-        },
-        contentShift: {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen
-            }),
-            marginLeft: 0
-        }
-    }));
+import Home from "../pages/Home";
+import MyCollection from "../pages/MyCollection";
+import ShoppingList from "../pages/ShoppingList";
 
-export default function Drawar() {
+const drawerWidth = 340;
+
+const styles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1
+    },
+    drawerPaper: {
+        position: "relative",
+        width: drawerWidth
+    },
+    toolbarMargin: theme.mixins.toolbar,
+}));
+
+function AppBarInteraction({ variant }) {
+    const [drawer, setDrawer] = useState(false);
+    const [title, setTitle] = useState("Home");
     const classes = styles();
-    const [open, setOpen] = useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
+    const toggleDrawer = () => {
+        setDrawer(!drawer);
     };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
+    const onItemClick = title => () => {
+        setTitle(title);
+        setDrawer(variant === "temporary" ? false : drawer);
+        setDrawer(!drawer);
     };
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <AppBar
-                position='fixed'
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open
-                })}
-            >
-                <Toolbar>
-                    <IconButton
-                        color='inherit'
-                        aria-label='open drawer'
-                        onClick={handleDrawerOpen}
-                        edge='start'
-                        className={clsx(classes.menuButton, open && classes.hide)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant='h6' noWrap>
-                        Half-Off Item Generater
-          </Typography>
-                </Toolbar>
-            </AppBar>
+            <MyAppBar title={title} onMenuClick={toggleDrawer} />
             <Drawer
-                className={classes.drawer}
-                variant='persistent'
-                anchor='left'
-                open={open}
+                variant={variant}
+                open={drawer}
+                onClose={toggleDrawer}
                 classes={{
                     paper: classes.drawerPaper
                 }}
             >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
+                <div
+                    className={clsx({
+                        [classes.toolbarMargin]: variant === "persistent"
+                    })}
+                />
                 <List>
-                    <ListItem button key='Halfoff Items'>
-                        <ListItemIcon>
-                            <StorefrontIcon />
-                        </ListItemIcon>
-                        <ListItemText primary='Halfoff Items' />
-                    </ListItem>
+                    <ListMenuItem
+                        label="Half Off Items"
+                        titleName="Half Off Items"
+                        to="/"
+                        onItemClick={onItemClick}
+                        icon={StorefrontIcon}
+                    />
                 </List>
                 <Divider />
                 <List>
-                    <ListItem button key='My Shopping list'>
-                        <ListItemIcon>
-                            <ShoppingCartIcon />
-                        </ListItemIcon>
-                        <ListItemText primary='My Shopping list' />
-                    </ListItem>
-                    <ListItem button key='My Collection'>
-                        <ListItemIcon>
-                            <FavoriteBorderIcon />
-                        </ListItemIcon>
-                        <ListItemText primary='My Collection' />
-                    </ListItem>
+                    <ListMenuItem
+                        label="My Shopping list"
+                        titleName="My Shopping list"
+                        to="/shopping-list"
+                        onItemClick={onItemClick}
+                        icon={ShoppingCartIcon}
+                    />
+                    <ListMenuItem
+                        label="My Collection"
+                        titleName="My Collection"
+                        to="my-collection"
+                        onItemClick={onItemClick}
+                        icon={FavoriteBorderIcon}
+                    />
                 </List>
             </Drawer>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open
-                })}
-            >
-                <div className={classes.drawerHeader} />
+            <main>
+                <Route exact path="/" component={Home} />
+                <Route path="/shopping-list" component={ShoppingList} />
+                <Route path="/my-collection" component={MyCollection} />
             </main>
         </div>
     );
 }
+
+export default AppBarInteraction;

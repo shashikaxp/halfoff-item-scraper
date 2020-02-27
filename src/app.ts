@@ -1,4 +1,5 @@
 import router from './api/auth/auth.router';
+import cronJob from './cron-jobs/weekly-prices';
 
 const express = require('express');
 const morgan = require('morgan');
@@ -30,5 +31,6 @@ function errorHandler(err, req, res, next) {
 
 app.use(notFound);
 app.use(errorHandler);
+cronJob();
 
 export default app;

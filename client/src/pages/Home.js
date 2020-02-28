@@ -5,6 +5,7 @@ import { styled } from '@material-ui/core/styles';
 
 import Filter from "../components/Filter";
 import CustomPagination from "../components/ui/Pagination"
+import HalfOffItemContainer from "../components/HalfOffItemContainer"
 
 const FilterWrapper = styled(Grid)({
     marginTop: '30px'
@@ -26,6 +27,9 @@ export default function Home() {
                 <FilterWrapper item xs={12}>
                     <Filter filterHandler={getSelectedFilter} />
                 </FilterWrapper>
+                <Grid Item xs={12}>
+                <HalfOffItemContainer />
+                </Grid>
                 <FilterWrapper item xs={12}>
                     <CustomPagination
                         pageHandler={pageHandler}
@@ -34,4 +38,4 @@ export default function Home() {
             </Grid>
         </Container>
     )
-}
+} 

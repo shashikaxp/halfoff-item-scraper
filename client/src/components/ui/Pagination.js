@@ -11,3 +11,4 @@ export default function CustomPagination({ pageHandler, pageCount }) {
         </Grid>
     )
 }
+

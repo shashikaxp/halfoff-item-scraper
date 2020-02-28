@@ -1,4 +1,5 @@
-import router from './api/auth/auth.router';
+import authRouter from './api/auth/auth.router';
+import halfOffItemsRouter from './api/halfOffItems/halfOffItems.router';
 import cronJob from './cron-jobs/weekly-prices';
 
 const express = require('express');
@@ -11,7 +12,8 @@ require('./db/connection');
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('/auth', router);
+app.use('/auth', authRouter);
+app.use('/halfOffItems', halfOffItemsRouter);
 
 function notFound(req, res, next) {
   res.status(404);

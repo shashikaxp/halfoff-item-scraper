@@ -12,9 +12,9 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import MyAppBar from "./AppBar";
 import ListMenuItem from "./ListMenuItem"
 
-import Home from "../pages/Home";
-import MyCollection from "../pages/MyCollection";
-import ShoppingList from "../pages/ShoppingList";
+import Home from "../../pages/Home";
+import MyCollection from "../../pages/MyCollection";
+import ShoppingList from "../../pages/ShoppingList";
 
 const drawerWidth = 340;
 

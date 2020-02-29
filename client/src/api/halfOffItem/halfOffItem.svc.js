@@ -1,7 +1,7 @@
 import http from "../core/http";
 
-let getHalfOffItems = () => {
-    return http.get('halfOffItems?page=2');
+let getHalfOffItems = (pageNo) => {
+    return http.get(`halfOffItems?page=${pageNo}`);
 }
 
 export default {

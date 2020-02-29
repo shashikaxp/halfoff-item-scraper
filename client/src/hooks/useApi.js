@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
-export let useApi = (initialValue, fn) => {
+export let useApi = (initialValue, dataPromise) => {
 
     const [data, setData] = useState(initialValue);
 
     useEffect(() => {
         async function getData() {
-            let apiData = await fn();
+            let apiData = await dataPromise;
             setData(apiData.data);
         }
         getData();
-    }, [fn])
+    }, [dataPromise])
 
     return data
 }

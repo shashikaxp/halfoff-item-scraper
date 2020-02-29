@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { styled } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import CustomPagination from "../components/ui/Pagination"
 import HalfOffItemContainer from "../components/HalfOffItemContainer"
 
 import halfOffItemService from "../api/halfOffItem/halfOffItem.svc";
-import { useApi } from "../hooks/useApi";
 
 const FilterWrapper = styled(Grid)({
     marginTop: '30px'
@@ -16,14 +15,25 @@ const FilterWrapper = styled(Grid)({
 
 export default function Home() {
 
-    const itemList = useApi([], halfOffItemService.getHalfOffItems);
+    const [itemList, setItemList] = useState([]);
+    const [pageNo, setPageNo] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+
+    useEffect(() => {
+        async function getData() {
+            let apiData = await halfOffItemService.getHalfOffItems(pageNo);
+            setItemList(apiData.data.itemList);
+            setTotalPages(apiData.data.totalPages);
+        }
+        getData();
+    }, [pageNo])
 
     let getSelectedFilter = (filter) => {
         console.log(filter);
     }
 
     let pageHandler = (e, pageNo) => {
-        console.log(pageNo);
+        setPageNo(pageNo)
     }
 
     return (
@@ -38,7 +48,7 @@ export default function Home() {
                 <FilterWrapper item xs={12}>
                     <CustomPagination
                         pageHandler={pageHandler}
-                        pageCount={12} />
+                        pageCount={totalPages} />
                 </FilterWrapper>
             </Grid>
         </Container>

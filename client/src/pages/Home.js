@@ -7,11 +7,16 @@ import Filter from "../components/Filter";
 import CustomPagination from "../components/ui/Pagination"
 import HalfOffItemContainer from "../components/HalfOffItemContainer"
 
+import halfOffItemService from "../api/halfOffItem/halfOffItem.svc";
+import { useApi } from "../hooks/useApi";
+
 const FilterWrapper = styled(Grid)({
     marginTop: '30px'
 });
 
 export default function Home() {
+
+    const itemList = useApi([], halfOffItemService.getHalfOffItems);
 
     let getSelectedFilter = (filter) => {
         console.log(filter);
@@ -27,8 +32,8 @@ export default function Home() {
                 <FilterWrapper item xs={12}>
                     <Filter filterHandler={getSelectedFilter} />
                 </FilterWrapper>
-                <Grid Item xs={12}>
-                <HalfOffItemContainer />
+                <Grid item xs={12}>
+                    <HalfOffItemContainer itemList={itemList} />
                 </Grid>
                 <FilterWrapper item xs={12}>
                     <CustomPagination

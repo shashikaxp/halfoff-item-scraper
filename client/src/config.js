@@ -1,3 +1,3 @@
 export const CONFIG = {
-    API_BASE_URL: 'localhost:1245'
+    API_BASE_URL: 'localhost:5000'
 }

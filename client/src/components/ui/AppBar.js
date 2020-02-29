@@ -18,6 +18,10 @@ const styles = makeStyles(theme => ({
     aboveDrawer: {
         background: theme.palette.primary.main,
         zIndex: theme.zIndex.drawer + 1
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     }
 }));
 

@@ -4,10 +4,12 @@ import cronJob from './cron-jobs/weekly-prices';
 
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
-require('./db/connection');
 
+app.use(cors())
+require('./db/connection');
 
 app.use(morgan('dev'));
 app.use(express.json());

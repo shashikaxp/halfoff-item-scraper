@@ -7,6 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import Box from '@material-ui/core/Box';
+import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
@@ -15,6 +16,16 @@ const useStyles = makeStyles({
     none: {
         display: 'none'
     },
+    mediaImage: {
+        objectFit: 'scale-down'
+    },
+    productName: {
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        fontFamily: 'Roboto',
+        marginBottom: '20px',
+        minHeight: '70px'
+    }
 });
 
 export default function HalfOffItem({ itemDetails }) {
@@ -33,16 +44,16 @@ export default function HalfOffItem({ itemDetails }) {
                 <CardActionArea>
                     <CardMedia
                         component="img"
-                        alt="Contemplative Reptile"
-                        height="auto"
-                        width="200px"
+                        className={classes.mediaImage}
+                        height="200px"
+                        width="auto"
                         image={image}
                         title="Contemplative Reptile"
                     />
                     <CardContent>
-                        <Typography gutterBottom variant="subtitle1">
+                        <p className={classes.productName}>
                             {name}
-                        </Typography>
+                        </p>
                         <Typography component="div" >
                             <Box fontWeight="fontWeightBold" fontSize={25} color="textSecondary" textAlign="right" > ${value.dollar}.{value.cents}</Box>
                         </Typography>

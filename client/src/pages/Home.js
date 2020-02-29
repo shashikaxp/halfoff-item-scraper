@@ -13,6 +13,15 @@ const FilterWrapper = styled(Grid)({
     marginTop: '30px'
 });
 
+const PaginationWrapper = styled(Grid)({
+    marginTop: '30px',
+    marginBottom: '30px'
+});
+
+const ContainerWrapper = styled(Container)({
+    background: '#fafafa'
+})
+
 export default function Home() {
 
     const [itemList, setItemList] = useState([]);
@@ -37,7 +46,7 @@ export default function Home() {
     }
 
     return (
-        <Container>
+        <ContainerWrapper>
             <Grid container >
                 <FilterWrapper item xs={12}>
                     <Filter filterHandler={getSelectedFilter} />
@@ -45,12 +54,12 @@ export default function Home() {
                 <Grid item xs={12}>
                     <HalfOffItemContainer itemList={itemList} />
                 </Grid>
-                <FilterWrapper item xs={12}>
+                <PaginationWrapper item xs={12}>
                     <CustomPagination
                         pageHandler={pageHandler}
                         pageCount={totalPages} />
-                </FilterWrapper>
+                </PaginationWrapper>
             </Grid>
-        </Container>
+        </ContainerWrapper>
     )
 } 

@@ -8,9 +8,13 @@ const ItemWrapper = styled(Grid)({
     padding: '20px 20px',
 });
 
+const ContainerWrapper = styled(Grid)({
+    display: 'flex'
+});
+
 export default function HalfOffItemContainer({ itemList }) {
     return (
-        <Grid container>
+        <ContainerWrapper container direction="row" alignItems="stretch" justify="flex-start">
             {itemList.map(item => {
                 return (
                     <ItemWrapper item xs={6} sm={3} key={item.name} >
@@ -18,7 +22,7 @@ export default function HalfOffItemContainer({ itemList }) {
                     </ItemWrapper>
                 )
             })}
-        </Grid>
+        </ContainerWrapper>
 
     )
 }

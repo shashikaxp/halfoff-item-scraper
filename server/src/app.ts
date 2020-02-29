@@ -35,6 +35,6 @@ function errorHandler(err, req, res, next) {
 
 app.use(notFound);
 app.use(errorHandler);
-cronJob();
+// cronJob();
 
 export default app;

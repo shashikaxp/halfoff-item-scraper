@@ -1,4 +1,5 @@
 import HalfOffItems from "../../models/halfOffItem";
+import * as _ from "lodash";
 
 
 let getHalfOffItems = async (req, res, next) => {
@@ -12,10 +13,17 @@ let getHalfOffItems = async (req, res, next) => {
     }
 
     try {
-        let items = await HalfOffItems.find()
-            .skip((itemsPerPage * page) - itemsPerPage)
-            .limit(itemsPerPage);
-        res.json(items);
+        let allHalfOffItems = await HalfOffItems.find();
+        let skipIndex = (itemsPerPage * page) - itemsPerPage;
+        let endIndex = skipIndex + itemsPerPage;
+
+        let itemList = _.slice(allHalfOffItems, skipIndex, endIndex);
+        let totalPages = Math.ceil(allHalfOffItems.length / itemsPerPage);
+
+        res.json({
+            itemList,
+            totalPages
+        });
     } catch (error) {
         next(error);
     }

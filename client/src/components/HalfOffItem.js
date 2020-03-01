@@ -25,6 +25,9 @@ const useStyles = makeStyles({
         fontFamily: 'Roboto',
         marginBottom: '20px',
         minHeight: '70px'
+    },
+    mediaWrapper: {
+        margin: '15px 15px'
     }
 });
 
@@ -42,14 +45,16 @@ export default function HalfOffItem({ itemDetails }) {
         <Badge badgeContent={badgeContent} color="error" >
             <Card className={classes.root}>
                 <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        className={classes.mediaImage}
-                        height="200px"
-                        width="auto"
-                        image={image}
-                        title="Contemplative Reptile"
-                    />
+                    <div className={classes.mediaWrapper}>
+                        <CardMedia
+                            component="img"
+                            className={classes.mediaImage}
+                            height="200px"
+                            width="auto"
+                            image={image}
+                            title="Contemplative Reptile"
+                        />
+                    </div>
                     <CardContent>
                         <p className={classes.productName}>
                             {name}

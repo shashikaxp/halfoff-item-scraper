@@ -7,8 +7,8 @@ const schema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required bitch'],
-  },
+    required: [true, 'Password is required'],
+  }
 });
 
 export default mongoose.model('User', schema);

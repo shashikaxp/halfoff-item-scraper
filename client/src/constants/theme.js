@@ -10,10 +10,12 @@ const theme = createMuiTheme({
       main: '#19857b'
     },
     error: {
-      main: '#99337b'
+      main: '#f44336'
     },
     background: {
-      default: '#fafafa'
+      plain: '#FFFCFF',
+      primary: '#556cd6',
+      secondary: '#5da9e9'
     }
   }
 });

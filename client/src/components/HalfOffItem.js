@@ -7,7 +7,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import Box from '@material-ui/core/Box';
-import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {

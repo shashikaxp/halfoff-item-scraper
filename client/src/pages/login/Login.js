@@ -5,13 +5,17 @@ import { styled } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { useHistory } from "react-router-dom";
 
-import auth from "../api/auth/auth";
+import auth from "../../api/auth/auth";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+import schema from "./Login.yup";
 
 export default function Login() {
 
     const theme = useTheme();
+    const history = useHistory();
     const { plain, primary, secondary } = theme.palette.background;
 
 
@@ -62,7 +66,9 @@ export default function Login() {
     const handleLogin = async (values) => {
         try {
             const result = await auth.login(values);
-            console.log(result);
+            if (result) {
+                history.push("/home")
+            }
         } catch (error) {
             console.error(error);
         }
@@ -79,15 +85,21 @@ export default function Login() {
                         <FormWrapper>
                             <FormTitle align='center'>Login</FormTitle>
                             <Formik
-                                initialValues={{ userName: '', password: '' }}
+                                initialValues={{ email: '', password: '' }}
+                                validationSchema={schema}
                                 onSubmit={handleLogin}>
-                                {() => (
+                                {({ errors, touched }) => (
                                     <Form>
                                         <Grid item>
-                                            <Field name='login-userName' type='input' as={Input} label="Email" fullWidth />
+                                            <Field name='email' type='input' as={Input} label="Email" fullWidth
+                                                error={errors.email && touched.email}
+                                                helperText={errors.email}
+                                            />
                                         </Grid>
                                         <Grid item>
-                                            <Field name='login-password' type='password' as={Input} label="Password" fullWidth />
+                                            <Field name='password' type='password' as={Input} label="Password" fullWidth
+                                                error={errors.password && touched.password}
+                                                helperText={errors.password} />
                                         </Grid>
                                         <ButtonWrapper container justify='flex-end'>
                                             <Button variant="contained" size="large" color="primary" type='submit'>

@@ -31,8 +31,8 @@ export default function Home() {
     useEffect(() => {
         async function getData() {
             let apiData = await halfOffItemService.getHalfOffItems(pageNo);
-            setItemList(apiData.data.itemList);
-            setTotalPages(apiData.data.totalPages);
+            setItemList(apiData.itemList);
+            setTotalPages(apiData.totalPages);
         }
         getData();
     }, [pageNo])

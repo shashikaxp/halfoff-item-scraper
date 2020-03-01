@@ -1,14 +1,16 @@
 import axios from "./axiosInstance";
 import { generateAxiosConfig } from './axiosConfigGenerater';
 
-let get = (url, isAuth, enableLoader) => {
+let get = async (url, isAuth, enableLoader) => {
     let config = generateAxiosConfig(isAuth, enableLoader);
-    return axios.get(url, config);
+    const result = await axios.get(url, config);
+    return result.data;
 };
 
-let post = (url, data, isAuth, enableLoader) => {
+let post = async (url, data, isAuth, enableLoader) => {
     let config = generateAxiosConfig(isAuth, enableLoader);
-    return axios.post(url, data, config);
+    const result = await axios.post(url, data, config);
+    return result.data;
 };
 
 export default {

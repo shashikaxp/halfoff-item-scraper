@@ -1,6 +1,6 @@
 import http from "../core/http";
 
-let getHalfOffItems = pageNo => {
+const getHalfOffItems = pageNo => {
   return http.get(`halfOffItems?page=${pageNo}`);
 };
 

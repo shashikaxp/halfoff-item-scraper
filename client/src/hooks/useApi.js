@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
-export let useApi = (initialValue, dataPromise) => {
+// eslint-disable-next-line import/prefer-default-export
+export const useApi = (initialValue, dataPromise) => {
+  const [data, setData] = useState(initialValue);
 
-    const [data, setData] = useState(initialValue);
+  useEffect(() => {
+    async function getData() {
+      const apiData = await dataPromise;
+      setData(apiData.data);
+    }
+    getData();
+  }, [dataPromise]);
 
-    useEffect(() => {
-        async function getData() {
-            let apiData = await dataPromise;
-            setData(apiData.data);
-        }
-        getData();
-    }, [dataPromise])
-
-    return data
-}
+  return data;
+};

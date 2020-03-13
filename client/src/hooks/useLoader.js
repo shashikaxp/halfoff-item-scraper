@@ -1,12 +1,25 @@
 import { useState } from "react";
 import * as _ from "lodash";
 import axios from "../api/core/axiosInstance";
+import { STORAGE } from "../constants/storage";
+import { HEADERS } from "../constants/headers";
 
 const getErrorDetails = error => {
   return {
     errorCode: _.get(error, "response.status"),
     data: _.get(error, "response.data")
   };
+};
+
+const hanldeToken = config => {
+  const tempConfig = config;
+  const token = localStorage.getItem(STORAGE.TOKEN);
+  if (_.has(config.headers, HEADERS.AUTH)) {
+    const headers = _.omit(config.headers, [HEADERS.AUTH]);
+    headers.common.Authorization = `Bearer ${token}`;
+    tempConfig.headers = headers;
+  }
+  return tempConfig;
 };
 
 export const useLoader = () => {
@@ -18,10 +31,15 @@ export const useLoader = () => {
 
   axios.interceptors.request.use(
     function(config) {
-      setLoader(true);
+      let newConfig = config;
+      if (_.has(newConfig.headers, HEADERS.LOADER)) {
+        setLoader(true);
+        const headers = _.omit(newConfig.headers, [HEADERS.LOADER]);
+        newConfig.headers = headers;
+      }
       setIsError(false);
-      // Do something before request is sent
-      return config;
+      newConfig = hanldeToken(newConfig);
+      return newConfig;
     },
     function(error) {
       setLoader(false);

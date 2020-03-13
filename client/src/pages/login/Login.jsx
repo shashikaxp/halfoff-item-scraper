@@ -11,6 +11,7 @@ import { Formik, Form, Field } from "formik";
 import auth from "../../api/auth/auth";
 
 import schema from "./Login.yup";
+import { STORAGE } from "../../constants/storage";
 
 export default function Login() {
   const theme = useTheme();
@@ -61,10 +62,11 @@ export default function Login() {
     color: `${theme.palette.primary.main}`
   });
 
-  const handleLogin = async (values) => {
+  const handleLogin = async values => {
     try {
       const result = await auth.login(values);
       if (result) {
+        localStorage.setItem(STORAGE.TOKEN, result.token);
         history.push("/home");
       }
     } catch (error) {

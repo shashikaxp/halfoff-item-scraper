@@ -4,6 +4,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import { Switch, Route, useHistory } from "react-router-dom";
+import * as _ from "lodash";
 
 import { useLoader } from "./hooks/useLoader";
 
@@ -39,6 +40,8 @@ function App() {
     setError(false);
   };
 
+  let errorMessage = _.get(apiErrorDetails, "data.message", "server error");
+
   const classes = styles();
   return (
     <div className="App">
@@ -47,7 +50,7 @@ function App() {
       </Backdrop>
       <SnackBar
         open={error}
-        message={apiErrorDetails.data.message}
+        message={errorMessage}
         type="error"
         handleClose={onClose}
       />

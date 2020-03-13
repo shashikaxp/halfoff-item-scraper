@@ -4,5 +4,5 @@ const matchPassword = (password: String, confrimPassword: String) => {
 };
 
 export default {
-  matchPassword,
+  matchPassword
 };

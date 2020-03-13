@@ -1,21 +1,22 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from "@material-ui/core/styles";
 
 // A custom theme for this app
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#556cd6'
+      main: "#556cd6",
+      variant: "#2544d2"
     },
     secondary: {
-      main: '#19857b'
+      main: "#19857b"
     },
     error: {
-      main: '#f44336'
+      main: "#f44336"
     },
     background: {
-      plain: '#FFFCFF',
-      primary: '#556cd6',
-      secondary: '#5da9e9'
+      plain: "#FFFCFF",
+      primary: "#556cd6",
+      secondary: "#5da9e9"
     }
   }
 });

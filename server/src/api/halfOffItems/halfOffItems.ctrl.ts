@@ -9,7 +9,7 @@ let getHalfOffItems = async (req, res, next) => {
     res.status(200);
     res.json([]);
   }
-  console.log("sadsadsa");
+
   try {
     let allHalfOffItems = await HalfOffItems.find();
     let skipIndex = itemsPerPage * page - itemsPerPage;

@@ -67,7 +67,7 @@ export default function Login() {
       const result = await auth.login(values);
       if (result) {
         localStorage.setItem(STORAGE.TOKEN, result.token);
-        history.push("/home");
+        history.push("/");
       }
     } catch (error) {
       console.error(error);

@@ -21,12 +21,15 @@ const styles = makeStyles(theme => ({
 
 function App() {
   const history = useHistory();
-  const [loader, apiError, apiErrorMessage] = useLoader();
+  const [loader, apiError, apiErrorDetails] = useLoader();
   const [error, setError] = useState(false);
 
   useEffect(() => {
     setError(apiError);
-  }, [apiError]);
+    if (apiErrorDetails.errorCode === 403) {
+      history.push("/login");
+    }
+  }, [apiError, apiErrorDetails]);
 
   useEffect(() => {
     // history.push("/login");
@@ -44,7 +47,7 @@ function App() {
       </Backdrop>
       <SnackBar
         open={error}
-        message={apiErrorMessage}
+        message={apiErrorDetails.data.message}
         type="error"
         handleClose={onClose}
       />

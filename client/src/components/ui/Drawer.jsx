@@ -88,7 +88,6 @@ function AppBarInteraction({ variant }) {
       </Drawer>
       <main>
         <Route path="/" component={Home} />
-        <Route path="/home" component={Home} />
         <Route path="/shopping-list" component={ShoppingList} />
         <Route path="/my-collection" component={MyCollection} />
       </main>

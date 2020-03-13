@@ -61,7 +61,7 @@ export default function Login() {
     color: `${theme.palette.primary.main}`
   });
 
-  const handleLogin = async values => {
+  const handleLogin = async (values) => {
     try {
       const result = await auth.login(values);
       if (result) {
@@ -117,7 +117,9 @@ export default function Login() {
                         size="large"
                         color="primary"
                         type="submit"
-                      />
+                      >
+                        Login
+                      </Button>
                     </ButtonWrapper>
                   </Form>
                 )}

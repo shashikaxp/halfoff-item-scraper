@@ -1,10 +1,10 @@
-import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
-import * as _ from 'lodash';
-import validationHandler from '../../util/validationHandler';
-import UserModel from '../../models/user';
+import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+import * as _ from "lodash";
+import validationHandler from "../../util/validationHandler";
+import UserModel from "../../models/user";
 
-import authUtil from './auth.util';
+import authUtil from "./auth.util";
 
 const login = async (req, res, next) => {
   try {
@@ -12,17 +12,17 @@ const login = async (req, res, next) => {
     if (checkUser) {
       const result = await bcrypt.compare(
         req.body.password,
-        checkUser.password,
+        checkUser.password
       );
       if (result) {
         res.json(getUserDetailsAndToken(checkUser));
       } else {
         res.status(422);
-        res.json({ message: 'invalid password' });
+        res.json({ message: "invalid password" });
       }
     } else {
       res.status(422);
-      res.json({ message: 'invalid email or password' });
+      res.json({ message: "invalid email or password" });
     }
   } catch (error) {
     next(error);
@@ -32,7 +32,7 @@ const login = async (req, res, next) => {
 const register = async (req, res, next) => {
   const isMatch = authUtil.matchPassword(
     req.body.password,
-    req.body.confirmPassword,
+    req.body.confirmPassword
   );
 
   if (isMatch) {
@@ -41,7 +41,7 @@ const register = async (req, res, next) => {
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, 12),
         firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        lastName: req.body.lastName
       };
       const newUser = new UserModel(userDetails);
       const error = newUser.validateSync();
@@ -64,20 +64,20 @@ const register = async (req, res, next) => {
     }
   } else {
     res.status(422);
-    res.json({ message: 'Password are not matching' });
+    res.json({ message: "The confirm password confirmation dies not match." });
   }
 };
 
 const getUserDetailsAndToken = user => {
-  const userDetails = _.omit(user.toObject(), 'password');
+  const userDetails = _.omit(user.toObject(), "password");
   const token = jwt.sign(userDetails, process.env.JWT_SECRET);
   return {
     user: userDetails,
-    token,
+    token
   };
 };
 
 export default {
   login,
-  register,
+  register
 };
